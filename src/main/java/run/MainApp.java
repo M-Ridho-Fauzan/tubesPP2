@@ -33,7 +33,7 @@ public class MainApp {
         // Mengatur ukuran frame
         // frame.setSize(400, 300);
         frame.setMaximumSize(new Dimension(700, Integer.MAX_VALUE)); // Set maximum width
-        frame.setMinimumSize(new Dimension(850, 650)); // Set minimum width
+        frame.setMinimumSize(new Dimension(900, 538)); // Set minimum width[885, 538]
         frame.setSize(850, 650);
 
         // Menempatkan frame di tengah layar

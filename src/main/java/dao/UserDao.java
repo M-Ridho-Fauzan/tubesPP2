@@ -1,7 +1,7 @@
 package dao;
 
 import db.MySqlConnection;
-import user.User;
+import app.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDao {
 
-    private static final String INSERT_QUERY = "INSERT INTO users(name, email, password, telp, alamat, is_admin) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_QUERY = "INSERT INTO users(name, email_user, password, telp, alamat, point, is_kurir, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE users SET name = ?, email = ?, password = ?, telp = ?, alamat = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM users";
@@ -25,12 +25,14 @@ public class UserDao {
             }
 
             setStatementParameters(statement, user);
-            statement.setBoolean(5, user.getUserIsAdmin()); // is_admin
+            statement.setBoolean(7, user.getUserIsKurir()); // is_kurir
+            statement.setBoolean(8, user.getUserIsAdmin()); // is_admin
             result = statement.executeUpdate();
 
             System.out.println("Insert data: " + user.getUserId() + " " + user.getUserName() + " "
                     + user.getUserTelp() + " " + user.getUserAlamat() + " " + user.getUserPassword() + " "
-                    + user.getUserAlamat() + " " + user.getUserIsAdmin());
+                    + user.getUserAlamat() + " " + user.getUserPoint() + " " + user.getUserIsKurir() + " "
+                    + user.getUserIsAdmin());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,8 +52,8 @@ public class UserDao {
 
             System.out.println("Insert data: " + user.getUserId() + " " + user.getUserName() + " "
                     + user.getUserTelp() + " " + user.getUserAlamat() + " " + user.getUserPassword() + " "
-                    + user.getUserAlamat() + " " + user.getUserIsAdmin());
-
+                    + user.getUserAlamat() + " " + user.getUserPoint() + " " + user.getUserIsKurir() + " "
+                    + user.getUserIsAdmin());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +72,8 @@ public class UserDao {
 
             System.out.println("Insert data: " + user.getUserId() + " " + user.getUserName() + " "
                     + user.getUserTelp() + " " + user.getUserAlamat() + " " + user.getUserPassword() + " "
-                    + user.getUserAlamat() + " " + user.getUserIsAdmin());
+                    + user.getUserAlamat() + " " + user.getUserPoint() + " " + user.getUserIsKurir() + " "
+                    + user.getUserIsAdmin());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -120,17 +123,21 @@ public class UserDao {
         statement.setString(3, user.getUserPassword());
         statement.setString(4, user.getUserTelp());
         statement.setString(5, user.getUserAlamat());
-        statement.setBoolean(6, user.getUserIsAdmin());
+        statement.setInt(6, user.getUserPoint());
+        statement.setBoolean(7, user.getUserIsKurir());
+        statement.setBoolean(8, user.getUserIsAdmin());
     }
 
     private User resultSetToUser(ResultSet resultSet) throws SQLException {
         User user = new User();
 //        user.setUserId(resultSet.getString("id"));
         user.setUserName(resultSet.getString("name"));
-        user.setUserEmail(resultSet.getString("email"));
+        user.setUserEmail(resultSet.getString("email_user"));
         user.setUserPassword(resultSet.getString("password"));
         user.setUserTelp(resultSet.getString("telp"));
         user.setUserAlamat(resultSet.getString("alamat"));
+        user.setUserPoint(resultSet.getInt("point"));
+        user.setIsKurir(resultSet.getBoolean("is_kurir"));
         user.setIsAdmin(resultSet.getBoolean("is_admin"));
         return user;
     }

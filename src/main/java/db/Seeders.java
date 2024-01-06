@@ -2,7 +2,7 @@ package db;
 
 import dao.UserDao;
 import java.util.UUID;
-import user.User;
+import app.model.User;
 
 /**
  *
@@ -31,6 +31,7 @@ public class Seeders {
             newUser.setUserPassword("admin123");
             newUser.setUserTelp("081234567890");
             newUser.setUserAlamat("Bandung");
+            newUser.setIsKurir(false);
             newUser.setIsAdmin(true);
 
             // Panggil DAO untuk menyimpan data ke dalam database
