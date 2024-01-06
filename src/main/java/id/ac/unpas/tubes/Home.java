@@ -4,6 +4,12 @@
  */
 package id.ac.unpas.tubes;
 
+import app.model.User;
+import app.service.AppSession;
+import dao.EwasteDao;
+import id.ac.unpas.tubes.aut.Login;
+import javax.swing.JFrame;
+
 /**
  *
  * @author ridho
@@ -15,6 +21,16 @@ public class Home extends javax.swing.JPanel {
      */
     public Home() {
         initComponents();
+//  ======================
+        fetchLoggedInUser();
+//        displayUserInfo();
+    }
+
+    private User loggedInUser;
+
+    private void fetchLoggedInUser() {
+        // Dapatkan data pengguna yang login dari AppSession
+        loggedInUser = AppSession.getInstance().getLoggedInUser();
     }
 
     /**
@@ -29,20 +45,20 @@ public class Home extends javax.swing.JPanel {
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        namaUser = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        dataOrder = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        dataAllUser = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        dataAllKurir = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -73,9 +89,14 @@ public class Home extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Welcome");
 
-        jLabel8.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("UserName!");
+        namaUser.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
+        namaUser.setForeground(new java.awt.Color(0, 0, 0));
+        namaUser.setText("UserName!");
+        namaUser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                namaUserPropertyChange(evt);
+            }
+        });
 
         jPanel8.setBackground(new java.awt.Color(0, 102, 102));
         jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -95,6 +116,11 @@ public class Home extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Log Out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,7 +133,7 @@ public class Home extends javax.swing.JPanel {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                    .addComponent(namaUser, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -117,7 +143,7 @@ public class Home extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(namaUser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -133,9 +159,14 @@ public class Home extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Data Order");
 
-        jLabel2.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("10.000");
+        dataOrder.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
+        dataOrder.setForeground(new java.awt.Color(255, 255, 255));
+        dataOrder.setText("10.000");
+        dataOrder.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataOrderPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -145,7 +176,7 @@ public class Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dataOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -154,7 +185,7 @@ public class Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                .addComponent(dataOrder, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -164,9 +195,14 @@ public class Home extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("User");
 
-        jLabel4.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("10.000");
+        dataAllUser.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
+        dataAllUser.setForeground(new java.awt.Color(255, 255, 255));
+        dataAllUser.setText("10.000");
+        dataAllUser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataAllUserPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -175,7 +211,7 @@ public class Home extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                    .addComponent(dataAllUser, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -187,7 +223,7 @@ public class Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                .addComponent(dataAllUser, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -197,9 +233,14 @@ public class Home extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Kurir");
 
-        jLabel6.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("10.000");
+        dataAllKurir.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 36)); // NOI18N
+        dataAllKurir.setForeground(new java.awt.Color(255, 255, 255));
+        dataAllKurir.setText("10.000");
+        dataAllKurir.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataAllKurirPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -208,7 +249,7 @@ public class Home extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dataAllKurir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -220,7 +261,7 @@ public class Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                .addComponent(dataAllKurir, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -273,8 +314,6 @@ public class Home extends javax.swing.JPanel {
         jTable1.setBackground(new java.awt.Color(0, 102, 102));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
                 {null, null},
                 {null, null}
             },
@@ -514,7 +553,54 @@ public class Home extends javax.swing.JPanel {
         jInternalFrame1.getAccessibleContext().setAccessibleName("Home");
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        // Kembali ke jendela login
+        Login loginPanel = new Login();
+
+        JFrame frame = (JFrame) this.getTopLevelAncestor();
+
+        frame.setContentPane(loginPanel);
+        frame.revalidate();
+        frame.repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void namaUserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_namaUserPropertyChange
+        // TODO add your handling code here:
+        // Tampilkan informasi pengguna di panel Home
+        namaUser.setText(loggedInUser.getUserName() + "!");
+
+    }//GEN-LAST:event_namaUserPropertyChange
+
+    private void dataOrderPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataOrderPropertyChange
+        // TODO add your handling code here:
+        EwasteDao ewasteDAO = new EwasteDao();
+        // Example usage: Get total registered couriers
+        int totalOrderedWaste = ewasteDAO.getTotalOrderedWaste();
+        dataOrder.setText("" + totalOrderedWaste);
+
+    }//GEN-LAST:event_dataOrderPropertyChange
+
+    private void dataAllUserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataAllUserPropertyChange
+        // TODO add your handling code here:
+        EwasteDao ewasteDAO = new EwasteDao();
+        // Example usage: Get total registered couriers
+        int totalRegisteredUsers = ewasteDAO.getTotalRegisteredUsers();
+        dataAllKurir.setText("" + totalRegisteredUsers);
+    }//GEN-LAST:event_dataAllUserPropertyChange
+
+    private void dataAllKurirPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataAllKurirPropertyChange
+        // TODO add your handling code here:
+        EwasteDao ewasteDAO = new EwasteDao();
+        // Example usage: Get total registered couriers
+        int totalRegisteredCouriers = ewasteDAO.getTotalRegisteredCouriers();
+        dataAllUser.setText("" + totalRegisteredCouriers);
+    }//GEN-LAST:event_dataAllKurirPropertyChange
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dataAllKurir;
+    private javax.swing.JLabel dataAllUser;
+    private javax.swing.JLabel dataOrder;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -524,13 +610,9 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -551,5 +633,6 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private javax.swing.JLabel namaUser;
     // End of variables declaration//GEN-END:variables
 }

@@ -158,22 +158,27 @@ public class Register extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("UD Digi Kyokasho N-R", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(204, 0, 0));
         jLabel7.setText("jLabel7");
+        jLabel7.setEnabled(false);
 
         jLabel8.setFont(new java.awt.Font("UD Digi Kyokasho N-R", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(204, 0, 0));
         jLabel8.setText("jLabel7");
+        jLabel8.setEnabled(false);
 
         jLabel9.setFont(new java.awt.Font("UD Digi Kyokasho N-R", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(204, 0, 0));
         jLabel9.setText("jLabel7");
+        jLabel9.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("UD Digi Kyokasho N-R", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(204, 0, 0));
         jLabel10.setText("jLabel7");
+        jLabel10.setEnabled(false);
 
         jLabel11.setFont(new java.awt.Font("UD Digi Kyokasho N-R", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 0, 0));
         jLabel11.setText("jLabel7");
+        jLabel11.setEnabled(false);
 
         javax.swing.GroupLayout passwordErrorLayout = new javax.swing.GroupLayout(passwordError);
         passwordError.setLayout(passwordErrorLayout);

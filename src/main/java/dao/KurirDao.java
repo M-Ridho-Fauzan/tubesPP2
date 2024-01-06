@@ -18,6 +18,7 @@ import java.util.List;
 public class KurirDao {
 
     private static final String INSERT_QUERY = "INSERT INTO kurir(email_kurir) VALUES (?)";
+    private static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM kurir WHERE email_kurir = ?";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM kurir";
     private static final String UPDATE_POINT_QUERY = "UPDATE kurir SET point_kurir = point_kurir + 1 WHERE id = ?";
     private static final String SELECT_TOP_KURIR_QUERY = "SELECT * FROM kurir ORDER BY point_kurir DESC LIMIT 1";
@@ -27,10 +28,10 @@ public class KurirDao {
 
         try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
 
-            statement.setString(1, kurir.getEmail());
+            statement.setString(1, kurir.getEmailKurir());
             result = statement.executeUpdate();
 
-            System.out.println("Insert data: " + kurir.getId() + " " + kurir.getEmail());
+            System.out.println("Insert data: " + kurir.getIdKurir() + " " + kurir.getEmailKurir());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +54,28 @@ public class KurirDao {
         }
 
         return list;
+    }
+
+    public Kurir select(String columnName, String value) {
+        Kurir kurir = new Kurir();
+
+        try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(buildSelectQuery(columnName))) {
+            statement.setString(1, value);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                kurir = resultSetToKurir(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return kurir;
+    }
+
+    private String buildSelectQuery(String columnName) {
+        return "SELECT * FROM kurir WHERE " + columnName + " = ?";
     }
 
     public int updatePoint(int kurirId) {
@@ -90,9 +113,9 @@ public class KurirDao {
 
     private Kurir resultSetToKurir(ResultSet resultSet) throws SQLException {
         Kurir kurir = new Kurir();
-        kurir.setId(resultSet.getLong("id"));
-        kurir.setEmail(resultSet.getString("email_kurir"));
-        kurir.setPoint(resultSet.getInt("point_kurir"));
+        kurir.setIdKurir(resultSet.getLong("id"));
+        kurir.setEmailKurir(resultSet.getString("email_kurir"));
+        kurir.setPointKurir(resultSet.getInt("point_kurir"));
         return kurir;
     }
 }

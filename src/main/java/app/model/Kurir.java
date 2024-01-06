@@ -10,44 +10,37 @@ package app.model;
  */
 public class Kurir {
 
-    private long id;
-    private String email;
-    private int point;
+    private long id_kurir;
+    private String emailKurir;
+    private int pointKurir;
 
     // Konstruktor, setter, getter
     public Kurir() {
         // Konstruktor kosong
     }
+    // Getter and Setter methods for each field
 
-    public Kurir(long id, String email, int point) {
-        this.id = id;
-        this.email = email;
-        this.point = point;
+    public void setIdKurir(long id_kurir) {
+        this.id_kurir = id_kurir;
     }
 
-    // Setter
-    public void setId(long id) {
-        this.id = id;
+    public long getIdKurir() {
+        return id_kurir;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getEmailKurir() {
+        return emailKurir;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public void setEmailKurir(String emailKurir) {
+        this.emailKurir = emailKurir;
     }
 
-    // Getter
-    public long getId() {
-        return id;
+    public int getPointKurir() {
+        return pointKurir;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public int getPoint() {
-        return point;
+    public void setPointKurir(int pointKurir) {
+        this.pointKurir = pointKurir;
     }
 }
