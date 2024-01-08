@@ -12,6 +12,8 @@ import db.MySqlConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 public class EwasteDao {
 
@@ -23,8 +25,7 @@ public class EwasteDao {
     private static final String GET_TOP_10_WASTE_CATEGORIES_QUERY = "SELECT kategori_sampah, COUNT(*) FROM orders GROUP BY kategori_sampah ORDER BY COUNT(*) DESC LIMIT 10";
     private static final String GET_TOP_10_USERS_WITH_MOST_POINTS_QUERY = "SELECT name, point FROM users ORDER BY point DESC LIMIT 10";
     private static final String GET_TOP_10_REGIONS_QUERY = "SELECT daerah, COUNT(*) FROM orders GROUP BY daerah ORDER BY COUNT(*) DESC LIMIT 10";
-    private static final String GET_ORDERED_WASTE_CATEGORIES_QUERY = "SELECT kategori_sampah, COUNT(*) FROM orders GROUP BY kategori_sampah";
-    private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders";
+    private static final String GET_ORDERED_WASTE_CATEGORIES_QUERY = "SELECT kategori_sampah, COUNT(*) FROM orders GROUP BY kategori_sampah ORDER BY COUNT(*)";
 
     public EwasteDao() {
         this.mySqlConnection = MySqlConnection.getInstance();
@@ -164,28 +165,105 @@ public class EwasteDao {
         return orderedCategories;
     }
 
-    // Method to get all order details based on username, region, total waste, and courier
-    public List<Object[]> getAllOrders() {
-        List<Object[]> allOrders = new ArrayList<>();
+    // Helper method to construct the SQL query
+    private String getOrdersDataQuery() {
+        return "SELECT "
+                + "u.name AS username, "
+                + "o.daerah, "
+                + "o.total_sampah, "
+                + "u_kurir.name AS kurir_name "
+                + "FROM orders o "
+                + "JOIN users u ON o.email_user = u.email_user "
+                + "JOIN kurir k ON o.email_kurir = k.email_kurir "
+                + "JOIN users u_kurir ON k.email_kurir = u_kurir.email_user";
+    }
+
+    public List<Object[]> getOrdersDataAll() {
+        List<Object[]> ordersData = new ArrayList<>();
 
         try (Connection connection = mySqlConnection.getConnection(); Statement statement
-                = connection.createStatement(); ResultSet resultSet = statement.executeQuery(GET_ALL_ORDERS_QUERY)) {
-
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
+                = connection.createStatement(); ResultSet resultSet = statement.executeQuery(getOrdersDataQuery())) {
 
             while (resultSet.next()) {
-                Object[] row = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    row[i - 1] = resultSet.getObject(i);
-                }
-                allOrders.add(row);
+                String username = resultSet.getString("username");
+                String daerah = resultSet.getString("daerah");
+                int totalSampah = resultSet.getInt("total_sampah");
+                String kurirName = resultSet.getString("kurir_name");
+
+                ordersData.add(new Object[]{username, daerah, totalSampah, kurirName});
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return allOrders;
+        return ordersData;
+    }
+
+    public static DefaultTableModel getAllUsers(Connection connection) {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Name");
+        model.addColumn("Email User");
+        model.addColumn("Password");
+        model.addColumn("Telp");
+        model.addColumn("Alamat");
+        model.addColumn("Point");
+        model.addColumn("Is Kurir");
+        model.addColumn("Is Admin");
+
+        String query = "SELECT * FROM users";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Vector row = new Vector();
+                row.add(resultSet.getString("name"));
+                row.add(resultSet.getString("email_user"));
+                row.add(resultSet.getString("password"));
+                row.add(resultSet.getString("telp"));
+                row.add(resultSet.getString("alamat"));
+                row.add(resultSet.getInt("point"));
+                row.add(resultSet.getBoolean("is_kurir"));
+                row.add(resultSet.getBoolean("is_admin"));
+
+                model.addRow(row);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return model;
+    }
+
+    private static final String GET_ALL_USERS = "SELECT Name, email_user, telp, alamat, Point, is_kurir FROM users";
+
+    public List<Object[]> getAllUsers() {
+        List<Object[]> allUsers = new ArrayList<>();
+
+        try (Connection connection = mySqlConnection.getConnection(); Statement statement
+                = connection.createStatement(); ResultSet resultSet = statement.executeQuery(GET_ALL_USERS)) {
+
+            while (resultSet.next()) {
+                String username = resultSet.getString("Name");
+                String emailUser = resultSet.getString("email_user");
+                String telp = resultSet.getString("telp");
+                String daerah = resultSet.getString("Alamat");
+                int point = resultSet.getInt("Point");
+                Boolean isKurir = resultSet.getBoolean("is_kurir");
+
+                // Konversi boolean ke string 'ya' atau 'tidak'
+                String isKurirString = (isKurir != null && isKurir) ? "ya" : "tidak";
+
+                allUsers.add(new Object[]{username, emailUser, telp, daerah, point, isKurirString});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allUsers;
     }
 }

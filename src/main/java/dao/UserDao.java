@@ -116,6 +116,25 @@ public class UserDao {
         return user;
     }
 
+// Metode untuk mengubah is_kurir di users menjadi true dan menambahkan point kurir
+    public void upgradeToKurir(String userEmail, int kurirPoint) throws SQLException {
+        try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement preparedStatement
+                = connection.prepareStatement("UPDATE users SET is_kurir = true, point = point + ? WHERE email_user = ?")) {
+
+            connection.setAutoCommit(false);
+
+            preparedStatement.setInt(1, kurirPoint);
+            preparedStatement.setString(2, userEmail);
+
+            preparedStatement.executeUpdate();
+
+            connection.commit();
+        } catch (SQLException e) {
+            // Handle exception or rollback transaction
+            e.printStackTrace();
+        }
+    }
+
     private void setStatementParameters(PreparedStatement statement, User user) throws SQLException {
 //        statement.setString(1, user.getUserId());
         statement.setString(1, user.getUserName());
@@ -142,3 +161,6 @@ public class UserDao {
         return user;
     }
 }
+
+
+//Beginilah contoh Dao nya

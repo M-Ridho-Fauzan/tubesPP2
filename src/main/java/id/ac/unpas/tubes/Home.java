@@ -6,9 +6,17 @@ package id.ac.unpas.tubes;
 
 import app.model.User;
 import app.service.AppSession;
+import app.service.TableModel.*;
 import dao.EwasteDao;
+import db.MySqlConnection;
 import id.ac.unpas.tubes.aut.Login;
-import javax.swing.JFrame;
+import java.awt.HeadlessException;
+import java.io.File;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -19,15 +27,56 @@ public class Home extends javax.swing.JPanel {
     /**
      * Creates new form Home
      */
+    private User loggedInUser;
+
     public Home() {
         initComponents();
 //  ======================
+//        EwasteDao data = new EwasteDao();
+        setTableModelAllCategories();
+        setTableModelTopUser();
+        setTableModelTopDaerah();
+        setTableModelTopCategories();
+        setTableModelAllOrders();
         fetchLoggedInUser();
-//        displayUserInfo();
     }
 
-    private User loggedInUser;
+    private void setTableModelAllCategories() {
+        EwasteDao data = new EwasteDao();
+        List<Object[]> kategori = data.getOrderedWasteCategories();
+        WasteAllCategoriesTableModel wasteAllCategoriesTableModel = new WasteAllCategoriesTableModel(kategori);
+        allKategoriSampah.setModel(wasteAllCategoriesTableModel);
+    }
 
+    private void setTableModelTopUser() {
+        EwasteDao data = new EwasteDao();
+        List<Object[]> topUser = data.getTop10UsersWithMostPoints();
+        WasteTopUserTableModel wasteTopUsersTableModel = new WasteTopUserTableModel(topUser);
+        top10User.setModel(wasteTopUsersTableModel);
+    }
+
+    private void setTableModelTopDaerah() {
+        EwasteDao data = new EwasteDao();
+        List<Object[]> topDaerah = data.getTop10Regions();
+        WasteTopDaerahTableModel wasteTopDaerahTableModel = new WasteTopDaerahTableModel(topDaerah);
+        daerahPenjemputan.setModel(wasteTopDaerahTableModel);
+    }
+
+    private void setTableModelTopCategories() {
+        EwasteDao data = new EwasteDao();
+        List<Object[]> topCategories = data.getTop10WasteCategories();
+        WasteCategoriesTableModel wasteCategoriesTableModel = new WasteCategoriesTableModel(topCategories);
+        topKategoriSampah.setModel(wasteCategoriesTableModel);
+    }
+
+    private void setTableModelAllOrders() {
+        EwasteDao data = new EwasteDao();
+        List<Object[]> ordersDataAll = data.getOrdersDataAll();
+        WasteAllOrdersDataTableModel wasteOrdersDataAllTableModel = new WasteAllOrdersDataTableModel(ordersDataAll);
+        allOrdes.setModel(wasteOrdersDataAllTableModel);
+    }
+
+    // Fungsi untuk mengatur model ke JTable
     private void fetchLoggedInUser() {
         // Dapatkan data pengguna yang login dari AppSession
         loggedInUser = AppSession.getInstance().getLoggedInUser();
@@ -47,7 +96,7 @@ public class Home extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         namaUser = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        logOutBtn = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -65,21 +114,23 @@ public class Home extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        allKategoriSampah = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        daerahPenjemputan = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        top10User = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        topKategoriSampah = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        allOrdes = new javax.swing.JTable();
+        importBtn = new javax.swing.JButton();
+        printBtn = new javax.swing.JButton();
+        previewBtn = new javax.swing.JButton();
 
         jInternalFrame1.setBackground(new java.awt.Color(153, 255, 255));
+        jInternalFrame1.setTitle("E Waste Dashboard");
         jInternalFrame1.setMinimumSize(new java.awt.Dimension(900, 538));
         jInternalFrame1.setVisible(true);
 
@@ -112,13 +163,13 @@ public class Home extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 51, 51));
-        jButton1.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Log Out");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        logOutBtn.setBackground(new java.awt.Color(0, 51, 51));
+        logOutBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
+        logOutBtn.setForeground(new java.awt.Color(255, 255, 255));
+        logOutBtn.setText("Log Out");
+        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                logOutBtnActionPerformed(evt);
             }
         });
 
@@ -129,12 +180,12 @@ public class Home extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(namaUser, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,7 +198,7 @@ public class Home extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -311,14 +362,14 @@ public class Home extends javax.swing.JPanel {
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("# Daerah Penjemputan");
 
-        jTable1.setBackground(new java.awt.Color(0, 102, 102));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        allKategoriSampah.setBackground(new java.awt.Color(0, 102, 102));
+        allKategoriSampah.setForeground(new java.awt.Color(153, 153, 153));
+        allKategoriSampah.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Kartegori Sampah", "Jumlah"
+                "null", "null"
             }
         ) {
             Class[] types = new Class [] {
@@ -329,18 +380,21 @@ public class Home extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        allKategoriSampah.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                allKategoriSampahComponentAdded(evt);
+            }
+        });
+        jScrollPane1.setViewportView(allKategoriSampah);
 
-        jTable2.setBackground(new java.awt.Color(0, 102, 102));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        daerahPenjemputan.setBackground(new java.awt.Color(0, 102, 102));
+        daerahPenjemputan.setForeground(new java.awt.Color(153, 153, 153));
+        daerahPenjemputan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Daerah", "Jumlah"
+                "null", "null"
             }
         ) {
             Class[] types = new Class [] {
@@ -351,10 +405,16 @@ public class Home extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        daerahPenjemputan.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                daerahPenjemputanComponentAdded(evt);
+            }
+        });
+        jScrollPane2.setViewportView(daerahPenjemputan);
 
-        jTable3.setBackground(new java.awt.Color(0, 102, 102));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        top10User.setBackground(new java.awt.Color(0, 102, 102));
+        top10User.setForeground(new java.awt.Color(153, 153, 153));
+        top10User.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -373,10 +433,11 @@ public class Home extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(top10User);
 
-        jTable4.setBackground(new java.awt.Color(0, 102, 102));
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        topKategoriSampah.setBackground(new java.awt.Color(0, 102, 102));
+        topKategoriSampah.setForeground(new java.awt.Color(153, 153, 153));
+        topKategoriSampah.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -395,7 +456,7 @@ public class Home extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(topKategoriSampah);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -405,17 +466,17 @@ public class Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(0, 106, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -454,8 +515,9 @@ public class Home extends javax.swing.JPanel {
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("# Riwayat penjemputan sampah update");
 
-        jTable5.setBackground(new java.awt.Color(0, 102, 102));
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        allOrdes.setBackground(new java.awt.Color(0, 102, 102));
+        allOrdes.setForeground(new java.awt.Color(153, 153, 153));
+        allOrdes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -474,17 +536,38 @@ public class Home extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable5);
+        allOrdes.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setViewportView(allOrdes);
 
-        jButton2.setBackground(new java.awt.Color(0, 51, 51));
-        jButton2.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Impor to PDF");
+        importBtn.setBackground(new java.awt.Color(0, 51, 51));
+        importBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
+        importBtn.setForeground(new java.awt.Color(255, 255, 255));
+        importBtn.setText("Impor to PDF");
+        importBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importBtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(0, 51, 51));
-        jButton3.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Preview PDF");
+        printBtn.setBackground(new java.awt.Color(0, 51, 51));
+        printBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
+        printBtn.setForeground(new java.awt.Color(255, 255, 255));
+        printBtn.setText("Print PDF");
+        printBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printBtnActionPerformed(evt);
+            }
+        });
+
+        previewBtn.setBackground(new java.awt.Color(0, 51, 51));
+        previewBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
+        previewBtn.setForeground(new java.awt.Color(255, 255, 255));
+        previewBtn.setText("Preview PDF");
+        previewBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -493,12 +576,14 @@ public class Home extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(importBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(previewBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(printBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane5))
                 .addContainerGap())
         );
@@ -511,8 +596,9 @@ public class Home extends javax.swing.JPanel {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(importBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(printBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(previewBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -553,17 +639,23 @@ public class Home extends javax.swing.JPanel {
         jInternalFrame1.getAccessibleContext().setAccessibleName("Home");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         // TODO add your handling code here:
-        // Kembali ke jendela login
-        Login loginPanel = new Login();
+        // Menampilkan dialog konfirmasi
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin keluar?",
+                "Konfirmasi", JOptionPane.YES_NO_OPTION);
 
-        JFrame frame = (JFrame) this.getTopLevelAncestor();
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            // Kembali ke jendela login
+            Login loginPanel = new Login();
 
-        frame.setContentPane(loginPanel);
-        frame.revalidate();
-        frame.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+            JFrame frame = (JFrame) this.getTopLevelAncestor();
+
+            frame.setContentPane(loginPanel);
+            frame.revalidate();
+            frame.repaint();
+        }
+    }//GEN-LAST:event_logOutBtnActionPerformed
 
     private void namaUserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_namaUserPropertyChange
         // TODO add your handling code here:
@@ -586,7 +678,7 @@ public class Home extends javax.swing.JPanel {
         EwasteDao ewasteDAO = new EwasteDao();
         // Example usage: Get total registered couriers
         int totalRegisteredUsers = ewasteDAO.getTotalRegisteredUsers();
-        dataAllKurir.setText("" + totalRegisteredUsers);
+        dataAllUser.setText("" + totalRegisteredUsers);
     }//GEN-LAST:event_dataAllUserPropertyChange
 
     private void dataAllKurirPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataAllKurirPropertyChange
@@ -594,16 +686,112 @@ public class Home extends javax.swing.JPanel {
         EwasteDao ewasteDAO = new EwasteDao();
         // Example usage: Get total registered couriers
         int totalRegisteredCouriers = ewasteDAO.getTotalRegisteredCouriers();
-        dataAllUser.setText("" + totalRegisteredCouriers);
+        dataAllKurir.setText("" + totalRegisteredCouriers);
     }//GEN-LAST:event_dataAllKurirPropertyChange
 
+    private void allKategoriSampahComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_allKategoriSampahComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_allKategoriSampahComponentAdded
+
+    private void daerahPenjemputanComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_daerahPenjemputanComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_daerahPenjemputanComponentAdded
+
+//    =================
+    private void printBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            String path = reportPath + File.separator + "TubesReport.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+
+            // Untuk Menquery Berdasarkan id
+            Map<String, Object> parameters = new HashMap<>();
+
+            // Dan ini untuk koneksi berhubungan query berdasarkan id di atas
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, MySqlConnection.getInstance().getConnection());
+
+            JasperPrintManager.printReport(jasperPrint, true);
+
+        } catch (JRException e) {
+            e.printStackTrace();
+            System.out.println("Exception Message ButtonPrint: " + e.getMessage());
+        }
+    }//GEN-LAST:event_printBtnActionPerformed
+
+    private void importBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            String path = reportPath + File.separator + "TubesReport.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, MySqlConnection.getInstance().getConnection());
+
+            // Create a file chooser
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            // Set extension filter
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF", "pdf");
+            fileChooser.setFileFilter(filter);
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+
+                // Check if file has .pdf extension, if not add it
+                if (!fileToSave.getAbsolutePath().endsWith(".pdf")) {
+                    fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+                }
+
+                // Export to chosen file
+                JasperExportManager.exportReportToPdfFile(jasperPrint, fileToSave.getAbsolutePath());
+                JOptionPane.showMessageDialog(this, "Export Selesai!");
+            }
+
+        } catch (HeadlessException | JRException e) {
+            e.printStackTrace();
+            System.out.println("Exception Message buttonExport: " + e.getMessage());
+        }
+    }//GEN-LAST:event_importBtnActionPerformed
+
+    private void previewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            String reportPath = System.getProperty("user.dir") + File.separator + "report";
+            String path = reportPath + File.separator + "TubesReport.jrxml";
+            JasperReport jasperReport = JasperCompileManager.compileReport(path);
+
+            // Untuk Menquery Berdasarkan id
+            Map<String, Object> parameters = new HashMap<>();
+
+            // Dan ini untuk koneksi berhubungan query berdasarkan id di atas
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
+                    parameters, MySqlConnection.getInstance().getConnection());
+
+            // Untuk Melihat data apa yang bisa di print
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            jasperViewer.setVisible(true);
+        } catch (JRException e) {
+            e.printStackTrace();
+            System.out.println("Exception Message buttonPreview: " + e.getMessage());
+        }
+    }//GEN-LAST:event_previewBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable allKategoriSampah;
+    private javax.swing.JTable allOrdes;
+    private javax.swing.JTable daerahPenjemputan;
     private javax.swing.JLabel dataAllKurir;
     private javax.swing.JLabel dataAllUser;
     private javax.swing.JLabel dataOrder;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton importBtn;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -628,11 +816,11 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
+    private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel namaUser;
+    private javax.swing.JButton previewBtn;
+    private javax.swing.JButton printBtn;
+    private javax.swing.JTable top10User;
+    private javax.swing.JTable topKategoriSampah;
     // End of variables declaration//GEN-END:variables
 }

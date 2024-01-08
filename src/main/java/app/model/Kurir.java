@@ -20,11 +20,11 @@ public class Kurir {
     }
     // Getter and Setter methods for each field
 
-    public void setIdKurir(long id_kurir) {
+    public void setKurirId(long id_kurir) {
         this.id_kurir = id_kurir;
     }
 
-    public long getIdKurir() {
+    public long getKurirId() {
         return id_kurir;
     }
 

@@ -17,11 +17,14 @@ public class MainApp {
 
     public static void main(String[] args) {
         // Membuat objek frame
-        JFrame frame = new JFrame("Main App");
+        JFrame frame = new JFrame("E Waste App Dashboard");
 
         // Seeder db
         Seeders seeders = new Seeders();
         seeders.insertAdmin();
+        seeders.insertUser();
+        Seeders.seedKurirData();
+//        seeders.insertOrder();
 
         // Menetapkan panel awal ke frame
         Login loginPanel = new Login();
@@ -33,8 +36,8 @@ public class MainApp {
         // Mengatur ukuran frame
         // frame.setSize(400, 300);
         frame.setMaximumSize(new Dimension(700, Integer.MAX_VALUE)); // Set maximum width
-        frame.setMinimumSize(new Dimension(900, 538)); // Set minimum width[885, 538]
-        frame.setSize(850, 650);
+        frame.setMinimumSize(new Dimension(980, 650)); // Set minimum width[885, 538]
+        frame.setSize(1000, 650);
 
         // Menempatkan frame di tengah layar
         frame.setLocationRelativeTo(null);

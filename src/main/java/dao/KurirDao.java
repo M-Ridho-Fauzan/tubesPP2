@@ -31,7 +31,7 @@ public class KurirDao {
             statement.setString(1, kurir.getEmailKurir());
             result = statement.executeUpdate();
 
-            System.out.println("Insert data: " + kurir.getIdKurir() + " " + kurir.getEmailKurir());
+            System.out.println("Insert data: " + kurir.getKurirId() + " " + kurir.getEmailKurir());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,8 @@ public class KurirDao {
     public Kurir select(String columnName, String value) {
         Kurir kurir = new Kurir();
 
-        try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(buildSelectQuery(columnName))) {
+        try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement statement
+                = connection.prepareStatement(buildSelectQuery(columnName))) {
             statement.setString(1, value);
 
             ResultSet resultSet = statement.executeQuery();
@@ -113,7 +114,7 @@ public class KurirDao {
 
     private Kurir resultSetToKurir(ResultSet resultSet) throws SQLException {
         Kurir kurir = new Kurir();
-        kurir.setIdKurir(resultSet.getLong("id"));
+        kurir.setKurirId(resultSet.getLong("id"));
         kurir.setEmailKurir(resultSet.getString("email_kurir"));
         kurir.setPointKurir(resultSet.getInt("point_kurir"));
         return kurir;
