@@ -138,11 +138,9 @@ public class Home extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(51, 255, 255));
 
         jLabel7.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Welcome");
 
         namaUser.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        namaUser.setForeground(new java.awt.Color(0, 0, 0));
         namaUser.setText("UserName!");
         namaUser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -361,19 +359,15 @@ public class Home extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel9.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("# kategori sampah");
+        jLabel9.setText("# Kategori Sampah");
 
         jLabel10.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("# Top 10 User");
 
         jLabel11.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("# Top 10 Jenis sampah");
+        jLabel11.setText("# Top 10 Jenis Sampah");
 
         jLabel12.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("# Daerah Penjemputan");
 
         allKategoriSampah.setBackground(new java.awt.Color(0, 102, 102));
@@ -489,7 +483,7 @@ public class Home extends javax.swing.JPanel {
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
-                                .addGap(0, 106, Short.MAX_VALUE)))
+                                .addGap(0, 133, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
@@ -526,8 +520,7 @@ public class Home extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel13.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 24)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("# Riwayat penjemputan sampah update");
+        jLabel13.setText("# Riwayat Penjemputan Sampah Update");
 
         allOrdes.setBackground(new java.awt.Color(0, 102, 102));
         allOrdes.setForeground(new java.awt.Color(153, 153, 153));
@@ -556,7 +549,7 @@ public class Home extends javax.swing.JPanel {
         importBtn.setBackground(new java.awt.Color(0, 51, 51));
         importBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 18)); // NOI18N
         importBtn.setForeground(new java.awt.Color(255, 255, 255));
-        importBtn.setText("Impor to PDF");
+        importBtn.setText("Import to PDF");
         importBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importBtnActionPerformed(evt);
