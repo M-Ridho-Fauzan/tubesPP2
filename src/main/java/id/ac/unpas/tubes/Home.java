@@ -97,6 +97,7 @@ public class Home extends javax.swing.JPanel {
         namaUser = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         logOutBtn = new javax.swing.JButton();
+        dataUserBtn = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -173,6 +174,16 @@ public class Home extends javax.swing.JPanel {
             }
         });
 
+        dataUserBtn.setBackground(new java.awt.Color(0, 51, 51));
+        dataUserBtn.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 14)); // NOI18N
+        dataUserBtn.setForeground(new java.awt.Color(255, 255, 255));
+        dataUserBtn.setText("Data User");
+        dataUserBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataUserBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -185,7 +196,8 @@ public class Home extends javax.swing.JPanel {
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(dataUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -197,6 +209,8 @@ public class Home extends javax.swing.JPanel {
                 .addComponent(namaUser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(dataUserBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logOutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -576,14 +590,13 @@ public class Home extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addComponent(importBtn)
                         .addGap(18, 18, 18)
                         .addComponent(previewBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(printBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(printBtn))
                     .addComponent(jScrollPane5))
                 .addContainerGap())
         );
@@ -784,6 +797,17 @@ public class Home extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_previewBtnActionPerformed
 
+    private void dataUserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataUserBtnActionPerformed
+        // TODO add your handling code here:
+        DataUser dataUserPanel = new DataUser();
+
+        JFrame frame = (JFrame) this.getTopLevelAncestor();
+
+        frame.setContentPane(dataUserPanel);
+        frame.revalidate();
+        frame.repaint();
+    }//GEN-LAST:event_dataUserBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable allKategoriSampah;
     private javax.swing.JTable allOrdes;
@@ -791,6 +815,7 @@ public class Home extends javax.swing.JPanel {
     private javax.swing.JLabel dataAllKurir;
     private javax.swing.JLabel dataAllUser;
     private javax.swing.JLabel dataOrder;
+    private javax.swing.JButton dataUserBtn;
     private javax.swing.JButton importBtn;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;

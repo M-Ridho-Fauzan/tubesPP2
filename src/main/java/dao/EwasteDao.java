@@ -266,4 +266,21 @@ public class EwasteDao {
 
         return allUsers;
     }
+
+    private static final String DELETE_QUERY_BY_ID = "DELETE FROM users WHERE id = ?";
+
+    public int deleteUserById(int userId) {
+        int result = -1;
+
+        try (Connection connection = MySqlConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_QUERY_BY_ID)) {
+
+            statement.setInt(1, userId);
+            result = statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Tambahkan baris ini
+        }
+
+        return result;
+    }
 }

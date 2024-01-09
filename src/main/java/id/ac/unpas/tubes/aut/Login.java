@@ -4,7 +4,7 @@
  */
 package id.ac.unpas.tubes.aut;
 
-import app.service.AppSession;
+//import app.service.AppSession;
 import dao.UserDao;
 import id.ac.unpas.tubes.Home;
 import id.ac.unpas.tubes.aut.Register;
@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import app.model.User;
+import app.service.AppSession;
 
 /**
  *

@@ -34,6 +34,20 @@ public class WasteAllUsersTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         return data.get(rowIndex)[columnIndex];
     }
+//        @Override
+//    public Object getValueAt(int rowIndex, int columnIndex) {
+//        if (columnIndex == 0) { // Jika ini kolom ID
+//            Object idValue = data.get(rowIndex)[columnIndex];
+//            if (idValue instanceof Number) {
+//                return ((Number) idValue).intValue();
+//            } else {
+//                // Handled based on your specific needs
+//                return 0; // Misalnya, mengembalikan nilai default jika bukan angka
+//            }
+//        } else {
+//            return data.get(rowIndex)[columnIndex];
+//        }
+//    }
 
     @Override
     public String getColumnName(int column) {
