@@ -377,7 +377,7 @@ public class Home extends javax.swing.JPanel {
 
             },
             new String [] {
-                "null", "null"
+                "Kategori", "Jumlah Order"
             }
         ) {
             Class[] types = new Class [] {
@@ -402,7 +402,7 @@ public class Home extends javax.swing.JPanel {
 
             },
             new String [] {
-                "null", "null"
+                "Daerah", "Jumlah Order"
             }
         ) {
             Class[] types = new Class [] {
